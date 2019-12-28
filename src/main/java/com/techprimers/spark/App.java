@@ -19,7 +19,7 @@ public class App {
                 .getOrCreate();
 
         StructType schema = new StructType()
-                .add("Transaction_date", "Date")
+                //.add("Transaction_date", "Date")
                 .add("Product", "string")
                 .add("Price", "long")
                 .add("Payment_Type", "string")
@@ -27,15 +27,15 @@ public class App {
                 .add("City", "string")
                 .add("State", "string")
                 .add("Country", "string")
-                .add("Account_Created", "Date")
-                .add("Last_Login", "Date")
+                //.add("Account_Created", "Date")
+                //.add("Last_Login", "Date")
                 .add("Latitude", "long")
                 .add("Longitude", "long");
 
         Dataset<org.apache.spark.sql.Row> df = session.read()
                 .option("mode", "DROPMALFORMED")
                 .schema(schema)
-                .option("dateFormat", "MM/dd/yyyy h:MM")
+                //.option("dateFormat", "MM/dd/yyyy h:MM")
                 //.csv("D:\\Soluciones\\__data-machineLearnig\\__data\\SalesJan2009.csv");
                 .csv("file:///home/osboxes/Downloads/SalesJan2009.csv");
 
@@ -43,7 +43,7 @@ public class App {
 
         df.createOrReplaceTempView("ventas");
         //Dataset<Row> sqlResult = spark.sql("SELECT InvoiceNo, InvoiceDate, CustomerID, SUM( UnitPrice*Quantity ) FROM pedidos GROUP BY InvoiceNo,InvoiceDate,CustomerID ORDER BY 4 DESC LIMIT 10");
-        Dataset<org.apache.spark.sql.Row> sqlResult = session.sql("SELECT Transaction_date, Product, SUM( Price*100 ),Latitude,Longitude FROM ventas GROUP BY  Transaction_date, Product,Latitude,Longitude ORDER BY 1 DESC LIMIT 10");
+        Dataset<org.apache.spark.sql.Row> sqlResult = session.sql("SELECT Product, SUM( Price*100 ),Latitude,Longitude FROM ventas GROUP BY  Product,Latitude,Longitude ORDER BY 1 DESC LIMIT 10");
 
         sqlResult.show();
 
